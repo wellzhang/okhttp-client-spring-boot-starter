@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wellzhang.okhttp.spring.autoconfigure.OkHttpClientAutoConfiguration
