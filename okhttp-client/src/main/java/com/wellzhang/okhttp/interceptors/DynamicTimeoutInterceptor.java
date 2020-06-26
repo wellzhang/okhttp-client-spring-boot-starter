@@ -24,18 +24,24 @@ public class DynamicTimeoutInterceptor implements Interceptor {
     OkHttpTimeoutMetadata okHttpTimeoutMetadata = RequestTimeoutHolder.get();
     if (okHttpTimeoutMetadata !=null){
       if(logger.isDebugEnabled()) {
-        logger.info("[intercept] okHttpTimeoutMetadata:{}.", okHttpTimeoutMetadata);
+        logger.debug("[intercept] okHttpTimeoutMetadata:{}.", okHttpTimeoutMetadata);
       }
+      int connectTimeout = chain.connectTimeoutMillis();
+      int readTimeout = chain.readTimeoutMillis();
+      int writeTimeout = chain.writeTimeoutMillis();
       if(okHttpTimeoutMetadata.getConnectTimeout() != null && okHttpTimeoutMetadata.getConnectTimeout() > 0){
-        chain.withConnectTimeout(okHttpTimeoutMetadata.getConnectTimeout(), TimeUnit.MILLISECONDS);
+        connectTimeout = okHttpTimeoutMetadata.getConnectTimeout();
       }
       if(okHttpTimeoutMetadata.getReadTimeout() != null && okHttpTimeoutMetadata.getReadTimeout() > 0){
-        chain.withReadTimeout(okHttpTimeoutMetadata.getReadTimeout(), TimeUnit.MILLISECONDS);
+        readTimeout = okHttpTimeoutMetadata.getReadTimeout();
       }
       if(okHttpTimeoutMetadata.getWriteTimeout() != null && okHttpTimeoutMetadata.getWriteTimeout() > 0){
-        chain.withWriteTimeout(okHttpTimeoutMetadata.getWriteTimeout(), TimeUnit.MILLISECONDS);
+        writeTimeout = okHttpTimeoutMetadata.getWriteTimeout();
       }
-      return chain.proceed(request);
+      return chain.withConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+          .withReadTimeout(readTimeout, TimeUnit.MILLISECONDS)
+          .withWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS)
+          .proceed(request);
     }
     return chain.proceed(request);
   }

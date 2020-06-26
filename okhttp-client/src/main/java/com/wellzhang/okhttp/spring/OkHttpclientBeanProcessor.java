@@ -11,6 +11,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -20,7 +22,7 @@ import org.springframework.util.StringUtils;
  * @version 1.0
  * @date 2020/6/21 22:38
  */
-public class OkHttpclientBeanProcessor implements BeanFactoryPostProcessor,
+public class OkHttpclientBeanProcessor implements ApplicationContextAware, BeanFactoryPostProcessor,
     InitializingBean {
 
   private String packages;
@@ -28,6 +30,11 @@ public class OkHttpclientBeanProcessor implements BeanFactoryPostProcessor,
   private OkHttpClient okHttpClient;
 
   private OkHttpClientConfig okHttpClientConfig;
+
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    SpringContextHolder.setApplicationContext(applicationContext);
+  }
 
   @Override
   public void afterPropertiesSet() {

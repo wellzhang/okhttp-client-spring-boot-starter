@@ -12,14 +12,13 @@ import org.springframework.context.ApplicationContextAware;
  * @Description:
  * @date 2020/6/21 22:34
  */
-public class SpringContextHolder implements ApplicationContextAware {
+public class SpringContextHolder{
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SpringContextHolder.class);
 
   private static ApplicationContext applicationContext;
 
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+  public static void setApplicationContext(ApplicationContext applicationContext){
     SpringContextHolder.applicationContext = applicationContext;
   }
 
