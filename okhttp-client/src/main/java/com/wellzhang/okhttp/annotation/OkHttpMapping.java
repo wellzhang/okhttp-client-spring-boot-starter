@@ -22,8 +22,6 @@ public @interface OkHttpMapping {
 
   String desc() default "";
 
-  String headers() default "";
-
   String path() default "";
 
   RequestMethod method() default RequestMethod.GET;

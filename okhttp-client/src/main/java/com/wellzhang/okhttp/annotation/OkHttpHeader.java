@@ -1,6 +1,5 @@
 package com.wellzhang.okhttp.annotation;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,13 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * @author zhangxiang
+ * @version 1.0
  * @Description:
- * @Date: 2020/6/21 20:47
+ * @date 2020/6/28 23:08
  */
-@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface OkHttpClient {
+@Target({ ElementType.TYPE, ElementType.METHOD })
+public @interface OkHttpHeader {
+  String name() default "";
 
   String value() default "";
 }

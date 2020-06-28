@@ -1,12 +1,13 @@
 package com.wellzhang.spring.okhttp.client;
 
 import com.wellzhang.okhttp.annotation.OkHttpClient;
+import com.wellzhang.okhttp.annotation.OkHttpHeader;
+import com.wellzhang.okhttp.annotation.OkHttpHeaders;
 import com.wellzhang.okhttp.annotation.OkHttpMapping;
 import com.wellzhang.okhttp.annotation.OkHttpParam;
 import com.wellzhang.okhttp.annotation.OkHttpTimeout;
 import com.wellzhang.okhttp.enums.RequestMethod;
 import com.wellzhang.spring.okhttp.vo.request.TestRequest;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author zhangxiang
@@ -28,6 +29,7 @@ public interface TestClient {
   String sleep();
 
   @OkHttpMapping(path = "/sleep")
+  @OkHttpHeaders(headers = {@OkHttpHeader(name = "User-Agent", value = "Chrome/83.0.4103.116 Safari/537.36")})
   @OkHttpTimeout(connectTimeout = 300, readTimeout = 300, writeTimeout = 300)
   String timeout();
 

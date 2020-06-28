@@ -3,6 +3,8 @@ package com.wellzhang.okhttp.metadate;
 import com.wellzhang.okhttp.OkHttpClientContext;
 import com.wellzhang.okhttp.annotation.OkBeforeRequest;
 import com.wellzhang.okhttp.annotation.OkBeforeResponse;
+import com.wellzhang.okhttp.annotation.OkHttpHeader;
+import com.wellzhang.okhttp.annotation.OkHttpHeaders;
 import com.wellzhang.okhttp.annotation.OkHttpMapping;
 import com.wellzhang.okhttp.annotation.OkHttpParam;
 import com.wellzhang.okhttp.annotation.OkHttpTimeout;
@@ -58,13 +60,11 @@ public class OkHttpRequestMetadata {
       this.requestMethod = methodMapping.method();
       this.desc = methodMapping.desc();
       this.mediaType = methodMapping.produce();
-      String headersString = methodMapping.headers();
-      if(StringUtils.isNotBlank(headersString)) {
-        try {
-          headerMap = OkHttpClientContext.getInstance().getObjectMapper()
-              .convertValue(headersString, Map.class);
-        }catch (Exception e){
-          logger.warn("headers error:{}.",e.getMessage());
+      OkHttpHeaders okHttpHeaders = method.getAnnotation(OkHttpHeaders.class);
+      if(okHttpHeaders != null) {
+        OkHttpHeader[] headers = okHttpHeaders.headers();
+        for (OkHttpHeader header : headers) {
+          headerMap.put(header.name(), header.value());
         }
       }
 
